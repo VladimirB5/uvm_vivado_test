@@ -3,10 +3,12 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
 import clk_rst_pkg::*;
+import spi_pkg::*;
 class basic_test extends uvm_test;
   `uvm_component_utils(basic_test)
     
-  clk_rst_env env;
+  clk_rst_env m_clk_rst_env;
+  spi_env m_spi_env;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -14,20 +16,25 @@ class basic_test extends uvm_test;
 
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    env = clk_rst_env::type_id::create("clk_rst_env", this);
+    m_clk_rst_env = clk_rst_env::type_id::create("clk_rst_env", this);
+    m_spi_env = spi_env::type_id::create("spi_env", this);
   endfunction
 
   task run_phase(uvm_phase phase);
-    clk_rst_sequence seq;
+    clk_rst_sequence m_clk_rst_seq;
+    spi_sequence m_spi_seq;
     phase.raise_objection(this);
 
-    seq = clk_rst_sequence::type_id::create("clk_rst_seq");
+    m_clk_rst_seq = clk_rst_sequence::type_id::create("clk_rst_seq");
     //seq.set_clock = 1'b1;
     //seq.enable_clock = 1'b0;
-    seq.start(env.agent.sequencer);
+    m_clk_rst_seq.start(m_clk_rst_env.agent.sequencer);
     
     #(100ns);
+    m_spi_seq = spi_sequence::type_id::create("spi_seq");
+    m_spi_seq.start(m_spi_env.m_agent.m_sequencer);
 
+    #(100ns);
     phase.drop_objection(this);
   endtask
 endclass

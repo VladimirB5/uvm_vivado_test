@@ -3,6 +3,8 @@
 xvlog -sv TB/clk_rst/osc_model.sv
 xvlog -sv TB/clk_rst/clk_rst_if.sv
 xvlog -sv -L uvm TB/clk_rst/clk_rst_pkg.svh
+xvlog -sv -L uvm TB/spi/spi_if.sv
+xvlog -sv -L uvm TB/spi/spi_pkg.svh
 xvlog -sv -L uvm TB/tests/tests_pkg.svh
 
 #xvlog -sv eth_pcie_top.sv
