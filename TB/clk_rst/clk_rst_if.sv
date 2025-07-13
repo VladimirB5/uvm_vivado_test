@@ -5,4 +5,5 @@ interface clk_rst_if;
 
   bit enable;
   bit rst_n;
+  logic clk;
 endinterface : clk_rst_if
