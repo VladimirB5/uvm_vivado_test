@@ -7,12 +7,15 @@ class gpio_monitor extends uvm_monitor;
 
   virtual gpio_if gpio_vif;
   virtual clk_rst_if clk_rst_vif;
-  logic [7:0] i_gpio_out;
-  logic [7:0] i_gpio_pd;
-  logic [7:0] i_gpio_pu;
+  gpio_seq_item m_gpio_tran;
+
+  // TLM analysis port
+  uvm_analysis_port#(gpio_seq_item) ap;
+
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
+    ap = new("ap", this);
   endfunction
 
   function void build_phase(uvm_phase phase);
@@ -26,26 +29,17 @@ class gpio_monitor extends uvm_monitor;
   endfunction
 
   task run_phase(uvm_phase phase);
-    i_gpio_out = 8'b0;
-    i_gpio_pd  = 8'b0;
-    i_gpio_pu  = 8'b0;
-
     forever begin
 
-      @(posedge clk_rst_vif.clk);
+      @(gpio_vif.gpio_out, gpio_vif.gpio_pu, gpio_vif.gpio_pd);
       #(1ns);
-      if (i_gpio_out != gpio_vif.gpio_out) begin
-        `uvm_info("gpio_monitor", $sformatf("gpio_out=%0h", gpio_vif.gpio_out), UVM_LOW);
-        i_gpio_out = gpio_vif.gpio_out;
-      end
-      if (i_gpio_pu != gpio_vif.gpio_pu) begin
-        `uvm_info("gpio_monitor", $sformatf("gpio_pu=%0h", gpio_vif.gpio_pu), UVM_LOW);
-        i_gpio_pu = gpio_vif.gpio_pu;
-      end
-      if (i_gpio_pd != gpio_vif.gpio_pd) begin
-        `uvm_info("gpio_monitor", $sformatf("gpio_pd=%0h", gpio_vif.gpio_pd), UVM_LOW);
-        i_gpio_pd = gpio_vif.gpio_pd;
-      end
+      m_gpio_tran = new();
+      m_gpio_tran.gpio_out = gpio_vif.gpio_out;
+      m_gpio_tran.gpio_pu  = gpio_vif.gpio_pu;
+      m_gpio_tran.gpio_pd  = gpio_vif.gpio_pd;
+      `uvm_info(get_type_name(), "GPIO transaction collected", UVM_LOW)
+      m_gpio_tran.print();
+      ap.write(m_gpio_tran); // send transaction
 
     end
   endtask

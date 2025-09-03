@@ -4,6 +4,7 @@ class gpio_agent extends uvm_agent;
 
   gpio_driver    m_driver;
   gpio_sequencer m_sequencer;
+  gpio_monitor   m_monitor;
 
   `uvm_component_utils(gpio_agent)
 
@@ -15,6 +16,7 @@ class gpio_agent extends uvm_agent;
     super.build_phase(phase);
     m_driver    = gpio_driver::type_id::create("gpio_driver", this);
     m_sequencer = gpio_sequencer::type_id::create("gpio_sequencer", this);
+    m_monitor   = gpio_monitor::type_id::create("gpio_monitor", this);
   endfunction
 
   function void connect_phase(uvm_phase phase);
