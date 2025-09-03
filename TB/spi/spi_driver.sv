@@ -45,8 +45,14 @@ class spi_driver extends uvm_driver #(spi_seq_item);
         spi_vif.sclk = 1'b1;
         #(1us);
       end
-
+      spi_vif.sclk = 1'b0;
+      #(1us);
+      spi_vif.mosi = 1'b0;
+      spi_vif.ss = 1'b0;
+      #(1us);
       spi_vif.sclk = 1'bx;
+      spi_vif.mosi = 1'bx;
+      spi_vif.ss = 1'bx;
       //`uvm_info("clk_rst_driver", $sformatf("Driving enable_clock=%0b, reset=%0b, reset_dur=%d", req.enable_clock, req.reset_val, req.reset_lenght), UVM_LOW);
 
       seq_item_port.item_done();

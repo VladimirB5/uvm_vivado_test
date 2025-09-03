@@ -9,6 +9,7 @@ package spi_pkg;
   `include "spi_sequence_item.sv"
   `include "spi_sequencer.sv"
   `include "spi_driver.sv"
+  `include "spi_monitor.sv"
   `include "spi_agent.sv"
   `include "spi_env.sv"
   `include "spi_sequence.sv"

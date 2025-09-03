@@ -3,6 +3,7 @@
 class spi_agent extends uvm_agent;
 
   spi_driver    m_driver;
+  spi_monitor   m_monitor;
   spi_sequencer m_sequencer;
 
   `uvm_component_utils(spi_agent)
@@ -14,6 +15,7 @@ class spi_agent extends uvm_agent;
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
     m_driver    = spi_driver::type_id::create("spi_driver", this);
+    m_monitor   = spi_monitor::type_id::create("spi_monitor", this);
     m_sequencer = spi_sequencer::type_id::create("spi_sequencer", this);
   endfunction
 

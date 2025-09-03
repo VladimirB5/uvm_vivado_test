@@ -32,7 +32,7 @@ class basic_test extends uvm_test;
   function void connect_phase(uvm_phase phase);
     super.connect_phase(phase);
     m_gpio_env.m_agent.m_monitor.ap.connect(m_scb.gpio_item_collected_export);
-
+    m_spi_env.m_agent.m_monitor.spi_ap.connect(m_scb.spi_item_collected_export);
   endfunction: connect_phase
 
   task run_phase(uvm_phase phase);
