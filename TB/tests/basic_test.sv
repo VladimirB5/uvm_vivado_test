@@ -13,6 +13,7 @@ class basic_test extends uvm_test;
   clk_rst_env m_clk_rst_env;
   spi_env m_spi_env;
   gpio_env m_gpio_env;
+  uvm_status_e status;
 
   // scoreaboard
   spi_gpio_scoreboard m_scb;
@@ -58,6 +59,9 @@ class basic_test extends uvm_test;
     m_gpio_seq.start(m_gpio_env.m_agent.m_sequencer);
 
     #(100ns);
+    m_spi_env.m_regmodel.gpio_out.write(status, 8'h01);
+
+    #(200ns);
     phase.drop_objection(this);
   endtask
 endclass

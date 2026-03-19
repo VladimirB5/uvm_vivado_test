@@ -30,7 +30,8 @@ class spi_monitor extends uvm_monitor;
     forever begin
       data_out = 12'h000;
       data_in = 12'h000;
-      @(posedge spi_vif.ss);
+      //@(posedge spi_vif.ss);
+      wait (spi_vif.ss === 1'b1); // avoid edges 0 -> X
       m_spi_tran = new();
       fork
         begin

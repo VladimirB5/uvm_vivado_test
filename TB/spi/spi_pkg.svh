@@ -7,6 +7,7 @@ package spi_pkg;
   `include "uvm_macros.svh"
 
   `include "spi_sequence_item.sv"
+  `include "RAL/spi_ral.sv"
   `include "spi_sequencer.sv"
   `include "spi_driver.sv"
   `include "spi_monitor.sv"
