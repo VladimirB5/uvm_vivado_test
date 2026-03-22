@@ -5,6 +5,7 @@ class spi_driver extends uvm_driver #(spi_seq_item);
   `uvm_component_utils(spi_driver)
   
   virtual spi_if spi_vif;
+  logic [7:0] data;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -43,6 +44,7 @@ class spi_driver extends uvm_driver #(spi_seq_item);
         spi_vif.mosi = req.value[i];
         #(1us);
         spi_vif.sclk = 1'b1;
+        data[7-i] = spi_vif.miso;
         #(1us);
       end
       spi_vif.sclk = 1'b0;
@@ -53,6 +55,9 @@ class spi_driver extends uvm_driver #(spi_seq_item);
       spi_vif.sclk = 1'bx;
       spi_vif.mosi = 1'bx;
       spi_vif.ss = 1'bx;
+      if (req.write == 1'b0) begin
+        req.value = data;
+      end
       //`uvm_info("clk_rst_driver", $sformatf("Driving enable_clock=%0b, reset=%0b, reset_dur=%d", req.enable_clock, req.reset_val, req.reset_lenght), UVM_LOW);
 
       seq_item_port.item_done();

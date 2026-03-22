@@ -56,6 +56,7 @@ end COMPONENT;
   signal input_en_c, input_en_s : std_logic_vector(7 downto 0);
   signal int_en_c, int_en_s     : std_logic_vector(7 downto 0);
   signal int_c, int_s           : std_logic;
+  signal pvalid_c, pvalid_s     : std_logic;
 
   signal data_rd    : std_logic_vector(7 downto 0);
   signal data_wr    : std_logic_vector(7 downto 0);
@@ -63,6 +64,7 @@ end COMPONENT;
   signal read       : std_logic;
   signal addr       : unsigned(2 downto 0);
   signal int_vector : std_logic_vector(7 downto 0);
+  signal spi_valid  : std_logic;
 
 BEGIN
 -------------------------------------------------------------------------------
@@ -79,7 +81,7 @@ i_spi: spi
   addr    => addr,
   data_wr => data_wr,
   data_rd => data_rd,
-  valid   => valid
+  valid   => spi_valid
   );
 
 u0: for i in 0 to 7 generate
@@ -106,6 +108,7 @@ end generate u0;
       input_en_s <= (others => '0');
       int_en_s   <= (others => '0');
       int_s      <= '0';
+      pvalid_s   <= '0';
     ELSIF clk = '1' AND clk'EVENT THEN
       gpio_in_s  <= gpio_in_c;
       gpio_out_s <= gpio_out_c;
@@ -114,38 +117,43 @@ end generate u0;
       input_en_s <= input_en_c;
       int_en_s   <= int_en_c;
       int_s      <= int_c;
+      pvalid_s   <= pvalid_c;
     END IF;
  END PROCESS state_reg;
 -------------------------------------------------------------------------------
 -- combinational parts
 -------------------------------------------------------------------------------
-data_rd <= gpio_in_s  when addr = C_ADDR_GPIO_IN and read = '1' else
-           gpio_pd_s  when addr = C_ADDR_GPIO_PD and read = '1' else
-           gpio_pd_s  when addr = C_ADDR_GPIO_PU and read = '1' else
-           int_en_s   when addr = C_ADDR_INT_EN and read = '1' else
-           input_en_s WHEN addr = C_ADDR_INPUT_EN and read = '1' else
-           gpio_out_s WHEN addr = C_ADDR_GPIO_OUT and read = '1' else
-           "0000000" & int_s WHEN addr = C_ADDR_INT_CLR and read = '1' else
+pvalid_c <= spi_valid;
+valid <= '1' when spi_valid = '1' and pvalid_s = '0' else
+         '0';
+
+data_rd <= gpio_in_s  when addr = C_ADDR_GPIO_IN and read = '0' else
+           gpio_pd_s  when addr = C_ADDR_GPIO_PD and read = '0' else
+           gpio_pd_s  when addr = C_ADDR_GPIO_PU and read = '0' else
+           int_en_s   when addr = C_ADDR_INT_EN and read = '0' else
+           input_en_s WHEN addr = C_ADDR_INPUT_EN and read = '0' else
+           gpio_out_s WHEN addr = C_ADDR_GPIO_OUT and read = '0' else
+           "0000000" & int_s WHEN addr = C_ADDR_INT_CLR and read = '0' else
            (others => '0');
 
-gpio_out_c <= data_wr when addr = C_ADDR_GPIO_OUT and valid = '1' and read = '0' else
+gpio_out_c <= data_wr when addr = C_ADDR_GPIO_OUT and valid = '1' and read = '1' else
               gpio_out_s;
 
-gpio_pd_c <= data_wr when addr = C_ADDR_GPIO_PD and valid = '1' and read = '0' else
+gpio_pd_c <= data_wr when addr = C_ADDR_GPIO_PD and valid = '1' and read = '1' else
              gpio_pd_s;
 
-gpio_pu_c <= data_wr when addr = C_ADDR_GPIO_PU and valid = '1' and read = '0' else
+gpio_pu_c <= data_wr when addr = C_ADDR_GPIO_PU and valid = '1' and read = '1' else
              gpio_pu_s;
 
-input_en_c <= data_wr when addr = C_ADDR_INPUT_EN and valid = '1' and read = '0' else
+input_en_c <= data_wr when addr = C_ADDR_INPUT_EN and valid = '1' and read = '1' else
               input_en_s;
 
-int_en_c <= data_wr when addr = C_ADDR_INT_EN and valid = '1' and read = '0' else
+int_en_c <= data_wr when addr = C_ADDR_INT_EN and valid = '1' and read = '1' else
             int_en_s;
 
 int_vector <= (gpio_in_c xor gpio_in_s) and int_en_s;
 
-int_c <= '0' when addr = C_ADDR_INT_CLR and valid = '1' and read = '0' else
+int_c <= '0' when addr = C_ADDR_INT_CLR and valid = '1' and read = '1' else
          ((int_vector(7) or int_vector(6)) or (int_vector(5) or int_vector(4))) or
          ((int_vector(3) or int_vector(2)) or (int_vector(1) or int_vector(0)));
 

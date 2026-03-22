@@ -44,7 +44,6 @@ ARCHITECTURE rtl OF spi IS
       read_s <= '0';
       cnt_s <= (others => '0');
       addr_s <= (others => '0');
-      miso_s <= '0';
       data_wr_s <= (others => '0');
       data_rd_s <= (others => '0');
       valid_s <= '0';
@@ -53,12 +52,20 @@ ARCHITECTURE rtl OF spi IS
       read_s <= read_c;
       cnt_s <= cnt_c;
       addr_s <= addr_c;
-      miso_s <= miso_c;
       data_wr_s <= data_wr_c;
       data_rd_s <= data_rd_c;
       valid_s <= valid_c;
     END IF;
  END PROCESS state_reg;
+
+ fall_state_reg : PROCESS(sclk, ss)
+   BEGIN
+     IF ss = '0' THEN
+       miso_s <= '0';
+     ELSIF sclk = '0' AND sclk'EVENT THEN
+       miso_s <= miso_c;
+     END IF;
+ END PROCESS fall_state_reg;
 
 -------------------------------------------------------------------------------
 -- combinational parts
@@ -81,7 +88,7 @@ ARCHITECTURE rtl OF spi IS
       WHEN S_ADDR =>
         if (cnt_s = 2) then
           cnt_c <= (others => '0');
-          if read_s = '1' then
+          if read_s = '0' then
             fsm_spi_c <= S_DATA_RD7;
           else
             fsm_spi_c <= S_DATA_WR;

@@ -14,6 +14,8 @@ class basic_test extends uvm_test;
   spi_env m_spi_env;
   gpio_env m_gpio_env;
   uvm_status_e status;
+  uvm_reg_data_t value;
+  logic [7:0] data;
 
   // scoreaboard
   spi_gpio_scoreboard m_scb;
@@ -60,8 +62,12 @@ class basic_test extends uvm_test;
 
     #(100ns);
     m_spi_env.m_regmodel.gpio_out.write(status, 8'h01);
+    #(100ns);
+    m_spi_env.m_regmodel.gpio_out.mirror(status, UVM_CHECK);
+    data = m_spi_env.m_regmodel.gpio_out.get_mirrored_value();
+    `uvm_info(get_type_name(), $sformatf("gpio out : %h", data), UVM_LOW)
 
-    #(200ns);
+    #(100ns);
     phase.drop_objection(this);
   endtask
 endclass

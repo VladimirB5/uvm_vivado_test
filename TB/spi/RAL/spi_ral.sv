@@ -80,7 +80,8 @@ class spi_reg8 extends uvm_reg;
     if (!$cast(tr, bus_item)) begin
       `uvm_fatal("ADAPTER", "bus_item is not my_bus_item")
     end
-
+    `uvm_info(get_type_name(), $sformatf("bus2reg A %h", tr.address), UVM_HIGH)
+    `uvm_info(get_type_name(), $sformatf("bus2reg %h", tr.value), UVM_HIGH)
     rw.addr   = tr.address;
     rw.kind   = tr.write ? UVM_WRITE : UVM_READ;
     rw.data   = tr.value;
