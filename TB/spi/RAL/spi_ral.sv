@@ -32,6 +32,9 @@ class spi_reg8 extends uvm_reg;
     `uvm_object_utils(spi_reg_block)
 
     rand spi_reg8       gpio_out;
+    rand spi_reg8       gpio_in;
+    rand spi_reg8       gpio_pd;
+    rand spi_reg8       gpio_pu;
 
     uvm_reg_map spi_reg_map;
 
@@ -46,11 +49,26 @@ class spi_reg8 extends uvm_reg;
       // n_bytes = 4 (32-bit bus)
       // endian = little
       spi_reg_map = create_map("spi_reg_map", 'h0, 4, UVM_LITTLE_ENDIAN);
-
+      // gpio in
       gpio_out = spi_reg8::type_id::create("gpio_out");
       gpio_out.configure(this, null, "");
       gpio_out.build("RW", 0, 8'h00);
       spi_reg_map.add_reg(gpio_out, 'h0, "RW");
+      // gpio in
+      gpio_in = spi_reg8::type_id::create("gpio_in");
+      gpio_in.configure(this, null, "");
+      gpio_in.build("RO", 0, 8'h00);
+      spi_reg_map.add_reg(gpio_in, 'h1, "RO");
+      // gpio pd
+      gpio_pd = spi_reg8::type_id::create("gpio_pd");
+      gpio_pd.configure(this, null, "");
+      gpio_pd.build("RW", 0, 8'h00);
+      spi_reg_map.add_reg(gpio_pd, 'h2, "RW");
+      // gpio pu
+      gpio_pu = spi_reg8::type_id::create("gpio_pu");
+      gpio_pu.configure(this, null, "");
+      gpio_pu.build("RW", 0, 8'h00);
+      spi_reg_map.add_reg(gpio_pu, 'h3, "RW");
 
       lock_model();
     endfunction
