@@ -5,7 +5,13 @@ package tests_pkg;
 
   import uvm_pkg::*;
   `include "uvm_macros.svh"
-  
+  import clk_rst_pkg::*;
+  import spi_pkg::*;
+  import gpio_pkg::*;
+  `include "TB/spi_gpio_scoreboard.sv"
+
+  // tests
+  `include "base_test.sv"
   `include "basic_test.sv"
 
 endpackage
