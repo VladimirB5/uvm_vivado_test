@@ -8,6 +8,7 @@ package spi_pkg;
 
   `include "spi_sequence_item.sv"
   `include "RAL/spi_ral.sv"
+  `include "RAL/gpio2reg_predictor.sv"
   `include "spi_sequencer.sv"
   `include "spi_driver.sv"
   `include "spi_monitor.sv"
