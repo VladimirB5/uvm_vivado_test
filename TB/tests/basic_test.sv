@@ -48,6 +48,10 @@ class basic_test extends base_test;
     data = m_spi_env.m_regmodel.gpio_out.get_mirrored_value();
     `uvm_info(get_type_name(), $sformatf("gpio out : %h", data), UVM_LOW)
 
+    // input enable
+    #(100ns);
+    m_spi_env.m_regmodel.input_en.write(status, 8'hff);
+
     #(100ns);
     m_spi_env.m_regmodel.gpio_in.mirror(status, UVM_CHECK);
     data = m_spi_env.m_regmodel.gpio_in.get_mirrored_value();

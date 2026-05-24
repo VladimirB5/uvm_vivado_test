@@ -35,6 +35,7 @@ class spi_reg8 extends uvm_reg;
     rand spi_reg8       gpio_in;
     rand spi_reg8       gpio_pd;
     rand spi_reg8       gpio_pu;
+    rand spi_reg8       input_en;
 
     uvm_reg_map spi_reg_map;
 
@@ -69,6 +70,11 @@ class spi_reg8 extends uvm_reg;
       gpio_pu.configure(this, null, "");
       gpio_pu.build("RW", 0, 8'h00);
       spi_reg_map.add_reg(gpio_pu, 'h3, "RW");
+      // input enable
+      input_en = spi_reg8::type_id::create("input_en");
+      input_en.configure(this, null, "");
+      input_en.build("RW", 0, 8'h00);
+      spi_reg_map.add_reg(gpio_pu, 'h4, "RW");
 
       lock_model();
     endfunction
