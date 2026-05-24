@@ -1,0 +1,12 @@
+{signal: [
+  {name: 'sclk', wave: '0.p...........l'},
+  {name: 'ss', wave: '01............0'},
+  {name: 'mosi', wave: '010............'},
+  {name: 'miso', wave: '0....10.....10.'},
+  { name: "bus",  wave: "x3555========x.", data: ["read", "a[2]", "a[1]", "a[0]", "d[7]","d[6]","d[5]","d[4]","d[3]","d[2]","d[1]","d[0]"] },,
+],
+ head:{
+   text:'Example of read from register GPIO out (value 0x81)',
+   tick:-2,
+ },
+}
