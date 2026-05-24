@@ -127,33 +127,33 @@ pvalid_c <= spi_valid;
 valid <= '1' when spi_valid = '1' and pvalid_s = '0' else
          '0';
 
-data_rd <= gpio_in_s  when addr = C_ADDR_GPIO_IN and read = '0' else
-           gpio_pd_s  when addr = C_ADDR_GPIO_PD and read = '0' else
-           gpio_pd_s  when addr = C_ADDR_GPIO_PU and read = '0' else
-           int_en_s   when addr = C_ADDR_INT_EN and read = '0' else
-           input_en_s WHEN addr = C_ADDR_INPUT_EN and read = '0' else
-           gpio_out_s WHEN addr = C_ADDR_GPIO_OUT and read = '0' else
-           "0000000" & int_s WHEN addr = C_ADDR_INT_CLR and read = '0' else
+data_rd <= gpio_in_s  when addr = C_ADDR_GPIO_IN and read = '1' else
+           gpio_pd_s  when addr = C_ADDR_GPIO_PD and read = '1' else
+           gpio_pd_s  when addr = C_ADDR_GPIO_PU and read = '1' else
+           int_en_s   when addr = C_ADDR_INT_EN and read = '1' else
+           input_en_s WHEN addr = C_ADDR_INPUT_EN and read = '1' else
+           gpio_out_s WHEN addr = C_ADDR_GPIO_OUT and read = '1' else
+           "0000000" & int_s WHEN addr = C_ADDR_INT_CLR and read = '1' else
            (others => '0');
 
-gpio_out_c <= data_wr when addr = C_ADDR_GPIO_OUT and valid = '1' and read = '1' else
+gpio_out_c <= data_wr when addr = C_ADDR_GPIO_OUT and valid = '1' and read = '0' else
               gpio_out_s;
 
-gpio_pd_c <= data_wr when addr = C_ADDR_GPIO_PD and valid = '1' and read = '1' else
+gpio_pd_c <= data_wr when addr = C_ADDR_GPIO_PD and valid = '1' and read = '0' else
              gpio_pd_s;
 
-gpio_pu_c <= data_wr when addr = C_ADDR_GPIO_PU and valid = '1' and read = '1' else
+gpio_pu_c <= data_wr when addr = C_ADDR_GPIO_PU and valid = '1' and read = '0' else
              gpio_pu_s;
 
-input_en_c <= data_wr when addr = C_ADDR_INPUT_EN and valid = '1' and read = '1' else
+input_en_c <= data_wr when addr = C_ADDR_INPUT_EN and valid = '1' and read = '0' else
               input_en_s;
 
-int_en_c <= data_wr when addr = C_ADDR_INT_EN and valid = '1' and read = '1' else
+int_en_c <= data_wr when addr = C_ADDR_INT_EN and valid = '1' and read = '0' else
             int_en_s;
 
 int_vector <= (gpio_in_c xor gpio_in_s) and int_en_s;
 
-int_c <= '0' when addr = C_ADDR_INT_CLR and valid = '1' and read = '1' else
+int_c <= '0' when addr = C_ADDR_INT_CLR and valid = '1' and read = '0' else
          ((int_vector(7) or int_vector(6)) or (int_vector(5) or int_vector(4))) or
          ((int_vector(3) or int_vector(2)) or (int_vector(1) or int_vector(0)));
 

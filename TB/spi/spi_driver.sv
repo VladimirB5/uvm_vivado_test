@@ -27,21 +27,21 @@ class spi_driver extends uvm_driver #(spi_seq_item);
       spi_vif.sclk = 1'b0;
       spi_vif.ss = 1'b0;
       #(500ns);
-      spi_vif.mosi = req.write;
+      spi_vif.mosi = ~req.write; // write = 0, read = 1
       spi_vif.ss = 1'b1;
       #(500ns);
       spi_vif.sclk = 1'b1;
       #(1us);
       for (int i = 0; i<3;i++) begin
         spi_vif.sclk = 1'b0;
-        spi_vif.mosi = req.address[i];
+        spi_vif.mosi = req.address[2-i];
         #(1us);
         spi_vif.sclk = 1'b1;
         #(1us);
       end
       for (int i = 0; i<8; i++) begin
         spi_vif.sclk = 1'b0;
-        spi_vif.mosi = req.value[i];
+        spi_vif.mosi = req.value[7-i];
         #(1us);
         spi_vif.sclk = 1'b1;
         data[7-i] = spi_vif.miso;

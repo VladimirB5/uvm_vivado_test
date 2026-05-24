@@ -88,7 +88,7 @@ ARCHITECTURE rtl OF spi IS
       WHEN S_ADDR =>
         if (cnt_s = 2) then
           cnt_c <= (others => '0');
-          if read_s = '0' then
+          if read_s = '1' then
             fsm_spi_c <= S_DATA_RD7;
           else
             fsm_spi_c <= S_DATA_WR;
@@ -132,7 +132,7 @@ ARCHITECTURE rtl OF spi IS
 
  END PROCESS next_state_spi;
 
-addr_c <= mosi & addr_s(1 downto 0) when fsm_spi_s = S_ADDR else
+addr_c <= addr_s(1 downto 0) & mosi when fsm_spi_s = S_ADDR else
           addr_s;
 
 

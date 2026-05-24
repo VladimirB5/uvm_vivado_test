@@ -45,7 +45,7 @@ class spi_monitor extends uvm_monitor;
         @(negedge spi_vif.ss);
       join_any
       disable fork;
-      if (data_in[11] == 1'b1) begin // write
+      if (data_in[11] == 1'b0) begin // write
         m_spi_tran.write = 1'b1;
         m_spi_tran.address = data_in[10:8];
         m_spi_tran.value = data_in[7:0];

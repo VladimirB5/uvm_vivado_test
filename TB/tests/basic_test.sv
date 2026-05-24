@@ -49,6 +49,11 @@ class basic_test extends base_test;
     `uvm_info(get_type_name(), $sformatf("gpio out : %h", data), UVM_LOW)
 
     #(100ns);
+    m_spi_env.m_regmodel.gpio_in.mirror(status, UVM_CHECK);
+    data = m_spi_env.m_regmodel.gpio_in.get_mirrored_value();
+    `uvm_info(get_type_name(), $sformatf("gpio out : %h", data), UVM_LOW)
+
+    #(100ns);
     phase.drop_objection(this);
   endtask
 endclass
