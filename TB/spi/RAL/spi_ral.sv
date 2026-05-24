@@ -74,7 +74,7 @@ class spi_reg8 extends uvm_reg;
       input_en = spi_reg8::type_id::create("input_en");
       input_en.configure(this, null, "");
       input_en.build("RW", 0, 8'h00);
-      spi_reg_map.add_reg(gpio_pu, 'h4, "RW");
+      spi_reg_map.add_reg(input_en, 'h4, "RW");
 
       lock_model();
     endfunction
