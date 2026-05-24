@@ -27,6 +27,8 @@ SPI is asynchronous and frame contain 12 bits.<br>
 8 bits of data <br>
 Address and data are send from MSB bit. <br>
 
+![Example of SPI frame](spi_gpio_read.svg)
+
 ## GPIO
 There is output, input which must enabled, <br>
 signals for pull down and pull up. <br>
