@@ -54,7 +54,8 @@ class spi_monitor extends uvm_monitor;
         m_spi_tran.address = data_in[10:8];
         m_spi_tran.value = data_out[7:0];
       end
-      `uvm_info(get_type_name(), "SPI transaction collected", UVM_HIGH)
+      `uvm_info(get_type_name(), "SPI transaction collected", UVM_LOW)
+      m_spi_tran.print();
       spi_ap.write(m_spi_tran);
     end
   endtask

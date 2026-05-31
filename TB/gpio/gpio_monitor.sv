@@ -34,6 +34,7 @@ class gpio_monitor extends uvm_monitor;
       @(gpio_vif.gpio_out, gpio_vif.gpio_pu, gpio_vif.gpio_pd);
       #(1ns);
       m_gpio_tran = new();
+      m_gpio_tran.gpio_in = '0; // set to zeros due compare in scoreboard
       m_gpio_tran.gpio_out = gpio_vif.gpio_out;
       m_gpio_tran.gpio_pu  = gpio_vif.gpio_pu;
       m_gpio_tran.gpio_pd  = gpio_vif.gpio_pd;
