@@ -38,7 +38,7 @@ module tb_top;
     uvm_config_db#(virtual spi_if)::set(null, "*", "spi_vif", spi_if_i);
     uvm_config_db#(virtual gpio_if)::set(null, "*", "gpio_vif", gpio_if_i);
     // Start the test
-    run_test("basic_test");
+    run_test();
   end
 
 endmodule
