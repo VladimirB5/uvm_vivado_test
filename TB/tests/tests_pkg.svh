@@ -13,6 +13,7 @@ package tests_pkg;
   // tests
   `include "base_test.sv"
   `include "basic_test.sv"
+  `include "gpio_in_test.sv"
 
 endpackage
 
