@@ -17,7 +17,7 @@ These registers are: <br>
 | gpio_pu        | pull up enable   |   3     |RW     |
 | input_en       | input enable     |   4     |RW     |
 | int_en         | interrupt enable |   5     |RW     |
-| int_clr        | interrupt clear  |   6     |WO     |
+| int_sts        | interrupt status |   6     |RC     |
 
 
 ## SPI interface
@@ -32,6 +32,11 @@ Address and data are send from MSB bit. <br>
 ## GPIO
 There is output, input which must enabled, <br>
 signals for pull down and pull up. <br>
+
+## Interupts
+Interrupt can be generated when there is change on input signal. Interrupt
+can be enabled for every signal separately. When int_sts register is read, interrupt and int_sts register are
+cleared.
 
 ## UVM
 There is uvc for clock and reset, SPI, GPIO. There is also scoreboard. <br>

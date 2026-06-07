@@ -8,7 +8,9 @@ package tests_pkg;
   import clk_rst_pkg::*;
   import spi_pkg::*;
   import gpio_pkg::*;
+  import irq_pkg::*;
   `include "TB/spi_gpio_scoreboard.sv"
+  `include "TB/irq_scoreboard.sv"
 
   // tests
   `include "base_test.sv"

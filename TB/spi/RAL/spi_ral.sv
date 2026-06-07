@@ -36,6 +36,8 @@ class spi_reg8 extends uvm_reg;
     rand spi_reg8       gpio_pd;
     rand spi_reg8       gpio_pu;
     rand spi_reg8       input_en;
+    rand spi_reg8       int_en;
+    rand spi_reg8       int_sts;
 
     uvm_reg_map spi_reg_map;
 
@@ -75,7 +77,16 @@ class spi_reg8 extends uvm_reg;
       input_en.configure(this, null, "");
       input_en.build("RW", 0, 8'h00);
       spi_reg_map.add_reg(input_en, 'h4, "RW");
-
+      // interrupt enable
+      int_en = spi_reg8::type_id::create("int_en");
+      int_en.configure(this, null, "");
+      int_en.build("RW", 0, 8'h00);
+      spi_reg_map.add_reg(int_en, 'h5, "RW");
+      // interrupt status
+      int_sts = spi_reg8::type_id::create("int_sts");
+      int_sts.configure(this, null, "");
+      int_sts.build("RC", 0, 8'h00);
+      spi_reg_map.add_reg(int_sts, 'h6, "RO");
       lock_model();
     endfunction
   endclass
