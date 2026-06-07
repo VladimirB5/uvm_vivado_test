@@ -14,6 +14,6 @@ package spi_gpio_pkg is
   CONSTANT  C_ADDR_GPIO_PU  : unsigned(2 downto 0) := "011";
   CONSTANT  C_ADDR_INPUT_EN : unsigned(2 downto 0) := "100";
   CONSTANT  C_ADDR_INT_EN   : unsigned(2 downto 0) := "101";
-  CONSTANT  C_ADDR_INT_CLR  : unsigned(2 downto 0) := "110";
+  CONSTANT  C_ADDR_INT_STS  : unsigned(2 downto 0) := "110";
 
 end package spi_gpio_pkg;
