@@ -100,6 +100,7 @@ ARCHITECTURE rtl OF spi IS
       WHEN S_DATA_RD7 =>
         miso_c <= data_rd(7);
         data_rd_c <= data_rd(6 downto 0);
+        cnt_c <= "001"; -- 1
         fsm_spi_c <= S_DATA_RD;
 
       WHEN S_DATA_RD =>

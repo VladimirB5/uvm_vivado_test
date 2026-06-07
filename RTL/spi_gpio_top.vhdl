@@ -154,8 +154,9 @@ input_en_c <= data_wr when addr = C_ADDR_INPUT_EN and valid = '1' and read = '0'
 int_en_c <= data_wr when addr = C_ADDR_INT_EN and valid = '1' and read = '0' else
             int_en_s;
 
+-- clear on read
 int_sts_c <= (others => '0') when addr = C_ADDR_INT_STS and valid = '1' and read = '1' else
-             (gpio_in_c xor gpio_in_s) and int_en_s;
+             int_sts_s or ((gpio_in_c xor gpio_in_s) and int_en_s);
 
 int_c <= ((int_sts_s(7) or int_sts_s(6)) or (int_sts_s(5) or int_sts_s(4))) or
          ((int_sts_s(3) or int_sts_s(2)) or (int_sts_s(1) or int_sts_s(0)));
