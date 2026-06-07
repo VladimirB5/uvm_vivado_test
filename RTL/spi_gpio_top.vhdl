@@ -19,7 +19,7 @@ ENTITY spi_gpio_top IS
   gpio_out : OUT std_logic_vector(7 downto 0);
   gpio_pd  : OUT std_logic_vector(7 downto 0);
   gpio_pu  : OUT std_logic_vector(7 downto 0);
-  interupt : OUT std_logic --interupt
+  interrupt : OUT std_logic --interupt
   );
 END ENTITY spi_gpio_top;
 
@@ -167,5 +167,5 @@ int_c <= ((int_sts_s(7) or int_sts_s(6)) or (int_sts_s(5) or int_sts_s(4))) or
 gpio_out <= gpio_out_s;
 gpio_pd  <= gpio_pd_s;
 gpio_pu  <= gpio_pu_s;
-interupt <= int_s;
+interrupt <= int_s;
 END ARCHITECTURE rtl;
