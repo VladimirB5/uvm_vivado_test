@@ -24,12 +24,12 @@ done
 xvlog -sv TB/clk_rst/osc_model.sv
 xvlog -sv TB/clk_rst/clk_rst_if.sv
 xvlog -sv -L uvm TB/clk_rst/clk_rst_pkg.svh
-xvlog -sv -L uvm TB/spi/spi_if.sv
-xvlog -sv -L uvm TB/spi/spi_pkg.svh
-xvlog -sv -L uvm TB/gpio/gpio_if.sv
-xvlog -sv -L uvm TB/gpio/gpio_pkg.svh
 xvlog -sv -L uvm TB/irq/irq_if.sv
 xvlog -sv -L uvm TB/irq/irq_pkg.svh
+xvlog -sv -L uvm TB/gpio/gpio_if.sv
+xvlog -sv -L uvm TB/gpio/gpio_pkg.svh
+xvlog -sv -L uvm TB/spi/spi_if.sv
+xvlog -sv -L uvm TB/spi/spi_pkg.svh
 xvlog -sv -L uvm TB/spi_gpio_scoreboard.sv
 xvlog -sv -L uvm TB/irq_scoreboard.sv
 xvlog -sv -L uvm TB/tests/tests_pkg.svh

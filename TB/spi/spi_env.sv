@@ -32,5 +32,6 @@ class spi_env extends uvm_env;
     spi2reg_predictor.adapter = m_spi_adapter;
     m_agent.m_monitor.spi_ap.connect(spi2reg_predictor.bus_in);
     m_gpio2reg.ral = m_regmodel;
+    m_agent.m_monitor.spi_ap.connect(m_gpio2reg.spi_item_collected_export);
   endfunction
 endclass

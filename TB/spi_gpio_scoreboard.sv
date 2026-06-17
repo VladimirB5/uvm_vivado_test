@@ -38,9 +38,11 @@ class spi_gpio_scoreboard extends uvm_scoreboard;
   // Called whenever monitor writes a transaction
  function void write_gpio(gpio_seq_item pkt);
     `uvm_info("SCOREBOARD", $sformatf("Got transaction: %s", pkt.convert2string()), UVM_MEDIUM)
-    m_gpio_status.copy(pkt);
-    //pkt.print();
-    void'(m_gpio_fifo.try_put(pkt));
+    if (!m_gpio_status.compare_out(pkt)) begin // consdider only change in output signals
+      m_gpio_status.copy(pkt);
+      //pkt.print();
+      void'(m_gpio_fifo.try_put(pkt));
+    end
   endfunction
 
  function void write_spi(spi_seq_item pkt);
@@ -75,13 +77,13 @@ class spi_gpio_scoreboard extends uvm_scoreboard;
          if (m_gpio_fifo.is_empty() == 1'b1) begin
            // there is no GPIO stimuli this can be caused by write same data into same registers
            `uvm_warning("SCOREBOARD", $sformatf("There is no new GPIO, check stimuli in waves"))
-           if (m_gpio_status.compare(spi_pkt))
+           if (m_gpio_status.compare_out(spi_pkt))
              PASS();
            else
              ERROR();
          end else begin
            m_gpio_fifo.get(gpio_pkt);
-           if (gpio_pkt.compare(spi_pkt))
+           if (gpio_pkt.compare_out(spi_pkt))
              PASS();
            else
              ERROR();
@@ -106,7 +108,7 @@ class spi_gpio_scoreboard extends uvm_scoreboard;
       if (!ERR_CNT)
         `uvm_info("SCOREBOARD PASSED", $sformatf("\n\n\n*** TEST PASSED, vectors: %0d, pass: %0d", VECT_CNT, PASS_CNT), UVM_LOW)
       else
-        `uvm_error("SCOREBOARD FAILED", $sformatf("\n\n\n*** TEST FAILERD, vectors: %0d, errors: %0d", VECT_CNT, ERR_CNT))
+        `uvm_error("SCOREBOARD FAILED", $sformatf("\n\n\n*** TEST FAILED, vectors: %0d, errors: %0d", VECT_CNT, ERR_CNT))
     end else
       `uvm_info("SCOREBOARD NO DATA", $sformatf("vectors: %0d, pass: %0d, err: %0d", VECT_CNT, PASS_CNT, ERR_CNT), UVM_LOW)
 

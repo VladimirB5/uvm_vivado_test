@@ -4,6 +4,8 @@ package spi_pkg;
   timeprecision 1ps;
 
   import uvm_pkg::*;
+  import irq_pkg::*;
+  import gpio_pkg::*;
   `include "uvm_macros.svh"
 
   `include "spi_sequence_item.sv"

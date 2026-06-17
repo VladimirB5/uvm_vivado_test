@@ -28,4 +28,11 @@ class gpio_seq_item extends uvm_sequence_item;
     );
 
   endfunction
+
+  function compare_out(gpio_seq_item pkt);
+    if (gpio_out==pkt.gpio_out && gpio_pd == pkt.gpio_pd && gpio_pu == pkt.gpio_pu)
+      return 1;
+    else
+      return 0;
+  endfunction
 endclass
