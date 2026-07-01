@@ -131,7 +131,7 @@ valid <= '1' when spi_valid = '1' and pvalid_s = '0' else
 
 data_rd <= gpio_in_s  when addr = C_ADDR_GPIO_IN and read = '1' else
            gpio_pd_s  when addr = C_ADDR_GPIO_PD and read = '1' else
-           gpio_pd_s  when addr = C_ADDR_GPIO_PU and read = '1' else
+           gpio_pu_s  when addr = C_ADDR_GPIO_PU and read = '1' else
            int_en_s   when addr = C_ADDR_INT_EN and read = '1' else
            input_en_s when addr = C_ADDR_INPUT_EN and read = '1' else
            gpio_out_s when addr = C_ADDR_GPIO_OUT and read = '1' else
