@@ -17,6 +17,7 @@ package tests_pkg;
   `include "basic_test.sv"
   `include "gpio_in_test.sv"
   `include "gpio_out_test.sv"
+  `include "gpio_out_RAL_test.sv"
 
 endpackage
 
