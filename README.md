@@ -39,5 +39,12 @@ can be enabled for every signal separately. When int_sts register is read, inter
 cleared.
 
 ## UVM
-There is uvc for clock and reset, SPI, GPIO. There is also scoreboard. <br>
+There is uvc for clock and reset, SPI, GPIO. There is also scoreboards (SPI->GPIO, interrupt). <br>
 RAL is used for SPI registers.
+
+## TESTS
+base_test <br>
+basic_test <br>
+gpio_in_test - random data put to input and read GPIO in register by RAL (results are predicted). <br>
+gpio_out_test - random write and read from register GPIO out,pd pu. <br>
+gpio_out_RAL_test - random write and read from register GPIO out,pd pu, RAL used. <br>
